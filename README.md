@@ -39,111 +39,172 @@ Créer un projet Spring Boot avec les dépendances suivantes :
     constructeurs, etc.).
 -   **Spring Boot Test** : tests unitaires et tests d'intégration.
 
-Le projet peut être créé avec [Spring
-Initializr](https://start.spring.io/).
-
-### Paramètres suggérés
-
-  -----------------------------------------------------------------------
-  Paramètre                           Valeur indicative
-  ----------------------------------- -----------------------------------
-  Project                             Maven
-
-  Language                            Java
-
-  Spring Boot                         Choisir une version stable
-                                      compatible avec l'environnement
-
-  Group                               `com.example`
-
-  Artifact                            `gestion-comptes`
-
-  Packaging                           Jar
-
-  Java                                17 ou 21, selon la version de
-                                      Spring Boot retenue
-  -----------------------------------------------------------------------
 
 ### Dépendances Maven
 
-Exemple de dépendances à sélectionner dans Spring Initializr ou à
-déclarer dans le `pom.xml` :
+ `pom.xml` :
 
 ``` xml
-<dependencies>
-    <dependency>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>org.ngueoko</groupId>
+    <artifactId>bank-account-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>bank-account-service</name>
+    <description>bank-account-service</description>
+    <url/>
+    <licenses>
+        <license/>
+    </licenses>
+    <developers>
+        <developer/>
+    </developers>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
+    <properties>
+        <java.version>17</java.version>
+        <lombok.version>1.18.42</lombok.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-h2console</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-graphql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-graphql-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+    </dependencies>
 
-    <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2</artifactId>
-        <scope>runtime</scope>
-    </dependency>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </path>
+                                <path>
+                                    <groupId>org.mapstruct</groupId>
+                                    <artifactId>mapstruct-processor</artifactId>
+                                    <version>${org.mapstruct.version}</version>
+                                </path>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok-mapstruct-binding</artifactId>
+                                    <version>0.2.0</version>
+                                </path>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </path>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <optional>true</optional>
-    </dependency>
-
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
+</project>
 ```
 
-Les versions des dépendances Spring Boot sont normalement gérées par le
-parent ou le BOM Spring Boot. Éviter de leur attribuer des versions
-individuellement sans raison particulière.
-
-### Structure de départ
-
-``` text
-gestion-comptes/
-├── src/
-│   ├── main/
-│   │   ├── java/com/example/gestioncomptes/
-│   │   │   └── GestionComptesApplication.java
-│   │   └── resources/
-│   │       └── application.properties
-│   └── test/
-│       └── java/com/example/gestioncomptes/
-└── pom.xml
-```
 
 ### Configuration H2
 
 Dans `src/main/resources/application.properties` :
 
 ``` properties
-spring.application.name=gestion-comptes
-
-spring.datasource.url=jdbc:h2:mem:comptesdb
-spring.datasource.driver-class-name=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-
+spring.application.name=bank-account-service
+spring.datasource.url=jdbc:h2:mem:account-db
 spring.h2.console.enabled=true
-spring.h2.console.path=/h2-console
+server.port=8080
 ```
-
-> La base `mem` est créée en mémoire. Elle est généralement
-> réinitialisée à l'arrêt de l'application. Pour conserver les données
-> entre les redémarrages, une configuration H2 en mode fichier peut être
-> utilisée.
 
 ### Vérifications
 
@@ -153,55 +214,50 @@ spring.h2.console.path=/h2-console
 4.  Utiliser l'URL JDBC `jdbc:h2:mem:comptesdb`, l'utilisateur `sa` et
     un mot de passe vide.
 
-### Captures d'écran à insérer
+### Captures d'écran base donnée H2 
 
--   **Image 1.1 --- Spring Initializr :** paramètres du projet et choix
-    des dépendances.
--   **Image 1.2 --- IntelliJ IDEA :** projet Maven importé et
-    arborescence initiale.
--   **Image 1.3 --- `pom.xml` :** dépendances Web, JPA, H2 et Lombok.
--   **Image 1.4 --- Console H2 :** page de connexion à la base de
-    données.
-
-```{=html}
-<!-- IMAGE À INSÉRER : Spring Initializr et sélection des dépendances -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : projet Maven ouvert dans IntelliJ IDEA -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : console H2 connectée -->
-```
+<img src="atelier_spring_boot_images/4_h2_data_base.png" alt="Description de l'image">
 
 ------------------------------------------------------------------------
 
-## 2. Créer l'entité JPA `Compte`
+## 2. Créer l'entité JPA `BankAccount`
 
 ### Travail à faire
 
-Créer une classe `Compte` représentant un compte bancaire. Cette classe
+Création de la classe `BankAccount` représentant un compte bancaire. Cette classe
 sera persistée dans la base de données grâce à JPA.
 
-### Attributs proposés
+### Attributs 
 
   Attribut         Type Java                  Description
   ---------------- -------------------------- -----------------------
-  `id`             `Long`                     Identifiant du compte
-  `solde`          `double` ou `BigDecimal`   Solde du compte
+  `id`             `UUID`                     Identifiant du compte
+  `balance`        `Double`                   Solde du compte
   `dateCreation`   `LocalDateTime`            Date de création
-  `type`           `TypeCompte`               Type de compte
+  `type`           `AccountType`              Type de compte
+  `currency`       `String`                   Devise du compte
+  `status`         `AccountStatus`            Statut du compte
 
-Pour une application financière, `BigDecimal` est préférable à `double`
-pour représenter les montants, afin d'éviter les imprécisions des
-nombres flottants.
 
-### Énumération `TypeCompte`
+### Énumération 
 
 ``` java
-public enum TypeCompte {
-    COURANT,
-    EPARGNE
+public enum AccountStatus {
+    CREATED,
+    ACTIVATED,
+    SUSPENDED
 }
+
+public enum AccountType {
+    CURRENT_ACCOUNT,
+    SAVING_ACCOUNT
+}
+
+public enum TransactionType {
+    DEBIT,
+    CREDIT
+}
+
 ```
 
 ### Entité `Compte`
@@ -209,74 +265,85 @@ public enum TypeCompte {
 ``` java
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
+import org.ngueoko.bankaccountservice.enums.AccountStatus;
+import org.ngueoko.bankaccountservice.enums.AccountType;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Builder
-public class Compte {
-
+@Data
+@Table(name ="bank_account")
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(exclude = "transactions")
+@Entity
+public class BankAccount {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @UuidGenerator
+    private UUID id;
 
-    @Column(nullable = false, precision = 19, scale = 2)
-    private BigDecimal solde;
+    @Column(nullable = false)
+    private Double balance;
 
-    private LocalDateTime dateCreation;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TypeCompte type;
+    private AccountType type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AccountStatus status;
+
+    @Column(length = 3)
+    private String currency; // ex : "MAD", "EUR"
+
+    @PrePersist
+    void onCreate() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        if (updatedAt == null) {
+            updatedAt = LocalDateTime.now();
+        }
+    }
+   
 }
-```
 
-> Avec Spring Boot 3, les annotations JPA proviennent de
-> `jakarta.persistence`. Pour un projet Spring Boot 2, les imports sont
-> généralement en `javax.persistence`.
-
-### Points à comprendre
-
--   `@Entity` indique que la classe est une entité JPA.
--   `@Id` désigne la clé primaire.
--   `@GeneratedValue` configure la génération de l'identifiant.
--   `@Column` précise les caractéristiques d'une colonne.
--   `@Enumerated(EnumType.STRING)` stocke le nom de l'énumération dans
-    la base.
--   Les annotations Lombok génèrent automatiquement les méthodes et
-    constructeurs correspondants.
-
-### Captures d'écran à insérer
-
--   **Image 2.1 ---** classe `Compte` annotée avec `@Entity`.
--   **Image 2.2 ---** énumération `TypeCompte`.
--   **Image 2.3 ---** table `COMPTE` visible dans la console H2.
-
-```{=html}
-<!-- IMAGE À INSÉRER : code de l'entité Compte dans IntelliJ -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : table COMPTE dans la console H2 -->
 ```
 
 ------------------------------------------------------------------------
 
-## 3. Créer `CompteRepository`
+## 3. Créer `BankAccountRepository`
 
 ### Travail à faire
 
 Créer l'interface `CompteRepository` en s'appuyant sur Spring Data JPA.
 
 ``` java
+import org.ngueoko.bankaccountservice.entities.BankAccount;
+import org.ngueoko.bankaccountservice.enums.AccountType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 
-public interface CompteRepository extends JpaRepository<Compte, Long> {
+
+import java.util.List;
+import java.util.UUID;
+
+@Repository
+public interface BankAccountRepository extends JpaRepository<BankAccount, UUID> {
+   
 }
+
 ```
 
 Cette simple déclaration donne accès à plusieurs opérations standards :
@@ -287,34 +354,21 @@ Cette simple déclaration donne accès à plusieurs opérations standards :
   `findById(id)`     Rechercher un compte par identifiant
   `findAll()`        Récupérer tous les comptes
   `deleteById(id)`   Supprimer un compte
-  `existsById(id)`   Vérifier l'existence d'un compte
-  `count()`          Compter les comptes
 
-### Ajouter une méthode de recherche dérivée
+### une méthode de recherche dérivée
 
 Spring Data JPA peut générer une requête à partir du nom de la méthode :
 
 ``` java
-import java.util.List;
-
-public interface CompteRepository extends JpaRepository<Compte, Long> {
-
-    List<Compte> findByType(TypeCompte type);
-
+@RepositoryRestResource
+public interface BankAccountRepository extends JpaRepository<BankAccount, UUID> {
+   @RestResource(path="/bytype")
+    List<BankAccount> findByType(@Param("t") AccountType type);
 }
+
 ```
 
 Cette méthode permet de rechercher les comptes selon leur type.
-
-### Captures d'écran à insérer
-
--   **Image 3.1 ---** interface `CompteRepository` dans IntelliJ.
--   **Image 3.2 ---** méthodes héritées de `JpaRepository` proposées par
-    l'IDE.
-
-```{=html}
-<!-- IMAGE À INSÉRER : interface CompteRepository et héritage JpaRepository -->
-```
 
 ------------------------------------------------------------------------
 
@@ -325,81 +379,18 @@ Cette méthode permet de rechercher les comptes selon leur type.
 Vérifier que le repository permet bien d'enregistrer, de rechercher, de
 modifier et de supprimer des comptes.
 
-Les tests peuvent être réalisés avec `@DataJpaTest`, qui configure un
-contexte de test adapté à la couche JPA.
+### Captures d'écran 
 
-### Exemple de test
-
-``` java
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-@DataJpaTest
-class CompteRepositoryTest {
-
-    @Autowired
-    private CompteRepository compteRepository;
-
-    @Test
-    void doitEnregistrerEtRetrouverUnCompte() {
-        Compte compte = Compte.builder()
-                .solde(new BigDecimal("1500.00"))
-                .dateCreation(LocalDateTime.now())
-                .type(TypeCompte.COURANT)
-                .build();
-
-        Compte compteEnregistre = compteRepository.save(compte);
-
-        assertThat(compteEnregistre.getId()).isNotNull();
-
-        var resultat = compteRepository.findById(compteEnregistre.getId());
-
-        assertThat(resultat).isPresent();
-        assertThat(resultat.get().getSolde())
-                .isEqualByComparingTo("1500.00");
-    }
-}
-```
-
-### Scénarios de test à réaliser
-
-1.  Enregistrer un compte.
-2.  Rechercher un compte par son identifiant.
-3.  Récupérer la liste des comptes.
-4.  Rechercher les comptes par type.
-5.  Modifier le solde d'un compte.
-6.  Supprimer un compte.
-7.  Vérifier le comportement lorsqu'un identifiant n'existe pas.
-
-### Captures d'écran à insérer
-
--   **Image 4.1 ---** classe de test `CompteRepositoryTest`.
--   **Image 4.2 ---** résultats des tests dans IntelliJ IDEA.
--   **Image 4.3 ---** données enregistrées dans H2.
-
-```{=html}
-<!-- IMAGE À INSÉRER : tests JUnit dans IntelliJ -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : résultats verts des tests DAO -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : enregistrements dans la table COMPTE -->
-```
+![Image 4.3 --- Console H2 : table BANK_ACCOUNT et données
+enregistrées.](atelier_spring_boot_images/4_h2_data_base.png)
 
 ------------------------------------------------------------------------
 
 ## 5. Créer le service REST de gestion des comptes
 
-### Travail à faire
+### Travail  fait
 
-Créer un contrôleur REST qui expose les opérations de gestion des
+Création du contrôleur REST qui expose les opérations de gestion des
 comptes.
 
 Dans un premier temps, le contrôleur peut utiliser directement
@@ -408,13 +399,13 @@ REST. La séparation en couche métier sera réalisée dans la partie 10.
 
 ### Endpoints proposés
 
-  Méthode HTTP   URL                   Opération
-  -------------- --------------------- ---------------------
-  `GET`          `/api/comptes`        Lister les comptes
-  `GET`          `/api/comptes/{id}`   Consulter un compte
-  `POST`         `/api/comptes`        Créer un compte
-  `PUT`          `/api/comptes/{id}`   Modifier un compte
-  `DELETE`       `/api/comptes/{id}`   Supprimer un compte
+  Méthode HTTP       URL                   Opération
+  -------------- ----------------------- ---------------------
+  `GET`          `/api/bankAccounts`        Lister les comptes
+  `GET`          `/api/bankAccounts/{id}`   Consulter un compte
+  `POST`         `/api/bankAccounts`        Créer un compte
+  `PUT`          `/api/bankAccounts/{id}`   Modifier un compte
+  `DELETE`       `/api/bankAccounts/{id}`   Supprimer un compte
 
 ### Exemple de contrôleur
 
@@ -493,127 +484,62 @@ public class CompteRestController {
 -   `@PathVariable` : récupère une valeur présente dans l'URL.
 -   `@RequestBody` : convertit le corps JSON en objet Java.
 
-> Cette première version est pédagogique. Dans une application plus
-> complète, il est préférable de placer la logique métier dans un
-> service, de valider les entrées et d'exposer des DTOs plutôt que les
-> entités JPA directement.
+------------------------------------------------------------------------
 
-### Captures d'écran à insérer
+## 6. Test microservice avec Postman
 
--   **Image 5.1 ---** classe `CompteRestController`.
--   **Image 5.2 ---** annotations REST et endpoints dans IntelliJ.
--   **Image 5.3 ---** application Spring Boot démarrée dans la console.
 
-```{=html}
-<!-- IMAGE À INSÉRER : code du contrôleur REST -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : application démarrée sans erreur -->
-```
+### Captures d'écran 
+
+1. Liste des comptes
+
+![Image 6.1 --- Postman : récupération de la liste des comptes
+(GET).](atelier_spring_boot_images/6-1-liste%20des%20comptes.png)
+
+*Image 6.1 --- Postman : récupération de la liste des comptes (GET).*
+
+![Image 6.2 --- Postman : récupération d'un compte par son
+identifiant.](atelier_spring_boot_images/6-2-get_one_by_ID.png)
+
+*Image 6.2 --- Postman : récupération d'un compte par son identifiant.*
+
+![Image 6.3 --- Postman : création d'un compte
+(POST).](atelier_spring_boot_images/6-3-creation%20compte.png)
+
+*Image 6.3 --- Postman : création d'un compte (POST).*
+
+![Image 6.4 --- H2 : vérification de la nouvelle ligne créée en
+base.](atelier_spring_boot_images/6-4-visualisation%20nouvelle%20ligne%20bd.png)
+
+*Image 6.4 --- H2 : vérification de la nouvelle ligne créée en base.*
+
+![Image 6.5 --- Postman : mise à jour d'un compte
+(PUT).](atelier_spring_boot_images/6-9-update.png)
+
+*Image 6.5 --- Postman : mise à jour d'un compte (PUT).*
+
+![Image 6.6 --- H2 : état de la table avant la
+suppression.](atelier_spring_boot_images/6-5-avant-delete.png)
+
+*Image 6.6 --- H2 : état de la table avant la suppression.*
+
+![Image 6.7 --- Postman : suppression d'un compte
+(DELETE).](atelier_spring_boot_images/6-7-suppression.png)
+
+*Image 6.7 --- Postman : suppression d'un compte (DELETE).*
+
+![Image 6.8 --- H2 : vérification après
+suppression.](atelier_spring_boot_images/6-8-apres-delete.png)
+
+*Image 6.8 --- H2 : vérification après suppression.*
 
 ------------------------------------------------------------------------
 
-## 6. Tester le microservice avec Postman
+## 7. Test de la documentation Swagger
 
 ### Travail à faire
 
-Utiliser Postman, ou un autre client REST, pour appeler les endpoints et
-vérifier les réponses HTTP.
-
-Adresse de base :
-
-``` text
-http://localhost:8080
-```
-
-### Test 1 --- Créer un compte
-
--   Méthode : `POST`
--   URL : `http://localhost:8080/api/comptes`
--   En-tête : `Content-Type: application/json`
--   Corps en mode `raw` / `JSON` :
-
-``` json
-{
-  "solde": 1500.00,
-  "dateCreation": "2026-01-15T10:30:00",
-  "type": "COURANT"
-}
-```
-
-Résultat attendu : statut `201 Created`, avec le compte créé et son
-identifiant.
-
-### Test 2 --- Lister les comptes
-
--   Méthode : `GET`
--   URL : `http://localhost:8080/api/comptes`
-
-Résultat attendu : statut `200 OK` et une liste JSON.
-
-### Test 3 --- Consulter un compte
-
--   Méthode : `GET`
--   URL : `http://localhost:8080/api/comptes/1`
-
-Remplacer `1` par l'identifiant réellement retourné lors de la création.
-
-### Test 4 --- Modifier un compte
-
--   Méthode : `PUT`
--   URL : `http://localhost:8080/api/comptes/1`
--   Corps JSON :
-
-``` json
-{
-  "solde": 2000.00,
-  "dateCreation": "2026-01-15T10:30:00",
-  "type": "EPARGNE"
-}
-```
-
-Résultat attendu : statut `200 OK`.
-
-### Test 5 --- Supprimer un compte
-
--   Méthode : `DELETE`
--   URL : `http://localhost:8080/api/comptes/1`
-
-Résultat attendu : statut `204 No Content`.
-
-### Vérifications complémentaires
-
-Tester également : - un identifiant inexistant : réponse attendue
-`404 Not Found` ; - un JSON invalide : réponse d'erreur ; - un type de
-compte inconnu : réponse d'erreur de conversion ; - une requête sans
-corps lorsque celui-ci est obligatoire.
-
-### Captures d'écran à insérer
-
--   **Image 6.1 ---** requête POST dans Postman et réponse
-    `201 Created`.
--   **Image 6.2 ---** requête GET retournant la liste des comptes.
--   **Image 6.3 ---** requête PUT et réponse de modification.
--   **Image 6.4 ---** requête DELETE et réponse `204 No Content`.
--   **Image 6.5 ---** exemple de réponse `404 Not Found`.
-
-```{=html}
-<!-- IMAGE À INSÉRER : Postman - création d'un compte -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : Postman - liste des comptes -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : Postman - modification et suppression -->
-```
-
-------------------------------------------------------------------------
-
-## 7. Générer et tester la documentation Swagger
-
-### Travail à faire
-
-Ajouter Springdoc OpenAPI pour générer automatiquement la documentation
+Ajout Springdoc OpenAPI pour générer automatiquement la documentation
 des API REST et disposer d'une interface Swagger UI.
 
 **Utiliser impérativement la dépendance suivante**, à la place de celle
@@ -623,22 +549,12 @@ mentionnée dans la vidéo :
 <dependency>
     <groupId>org.springdoc</groupId>
     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    <version>2.8.13</version>
+    <version>3.2.0</version>
 </dependency>
 ```
 
 Cette dépendance est à ajouter dans la section `<dependencies>` du
 `pom.xml`.
-
-### Recharger Maven
-
-Après modification du `pom.xml` :
-
-1.  Enregistrer le fichier.
-2.  Ouvrir la fenêtre Maven dans IntelliJ.
-3.  Cliquer sur **Reload All Maven Projects**.
-4.  Vérifier que la dépendance Springdoc est téléchargée.
-5.  Redémarrer l'application.
 
 ### Accéder à Swagger UI
 
@@ -657,47 +573,24 @@ http://localhost:8080/v3/api-docs
 
 ### Tester les API avec Swagger
 
-1.  Ouvrir Swagger UI.
-2.  Déplier la section correspondant à `CompteRestController`.
-3.  Sélectionner une opération, par exemple `GET /api/comptes`.
-4.  Cliquer sur **Try it out**.
-5.  Cliquer sur **Execute**.
-6.  Examiner la requête, le code HTTP et la réponse JSON.
 
-### Personnalisation facultative
+### Captures d'écran 
 
-Il est possible d'ajouter des annotations OpenAPI pour enrichir la
-documentation :
+![Image 7.1 --- Interface Swagger UI et endpoints
+documentés.](atelier_spring_boot_images/7-1-swagger-ui.png)
 
-``` java
-@Operation(
-    summary = "Lister les comptes",
-    description = "Retourne la liste de tous les comptes"
-)
-@GetMapping
-public List<Compte> getComptes() {
-    return compteRepository.findAll();
-}
-```
+*Image 7.1 --- Interface Swagger UI et endpoints documentés.*
 
-Importer `Operation` depuis `io.swagger.v3.oas.annotations`.
+![Image 7.2 --- Exécution d'un endpoint GET depuis Swagger
+UI.](atelier_spring_boot_images/7-2-swagger-ui.png)
 
-### Captures d'écran à insérer
+*Image 7.2 --- Exécution d'un endpoint GET depuis Swagger UI.*
 
--   **Image 7.1 ---** dépendance Springdoc dans le `pom.xml`.
--   **Image 7.2 ---** Swagger UI affichant les endpoints.
--   **Image 7.3 ---** exécution de `GET /api/comptes` dans Swagger.
--   **Image 7.4 ---** document JSON `/v3/api-docs`.
+![Image 7.3 --- Consultation d'un compte par identifiant depuis Swagger
+UI.](atelier_spring_boot_images/7-3-swagger-ui.png)
 
-```{=html}
-<!-- IMAGE À INSÉRER : dépendance springdoc dans pom.xml -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : interface Swagger UI -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : test d'un endpoint depuis Swagger -->
-```
+*Image 7.3 --- Consultation d'un compte par identifiant depuis Swagger
+UI.*
 
 ------------------------------------------------------------------------
 
@@ -718,480 +611,372 @@ REST pour chaque opération.
 </dependency>
 ```
 
-La version est gérée par le parent ou le BOM Spring Boot.
+
 
 ### Exposer le repository
 
 Il est possible de personnaliser le chemin de la ressource :
 
 ``` java
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-
-@RepositoryRestResource(path = "comptes")
-public interface CompteRepository extends JpaRepository<Compte, Long> {
+@RepositoryRestResource
+public interface BankAccountRepository extends JpaRepository<BankAccount, UUID> {
+   @RestResource(path="/bytype")
+    List<BankAccount> findByType(@Param("t") AccountType type);
 }
 ```
 
 L'API Spring Data REST sera alors exposée sous une URL de la forme :
 
 ``` text
-http://localhost:8080/comptes
+http://localhost:8080/bankAccounts
 ```
-
-> Attention : si le contrôleur de la partie 5 expose déjà
-> `/api/comptes`, il ne faut pas confondre les deux API. Elles peuvent
-> coexister avec des chemins distincts, mais il est important de les
-> distinguer dans les tests et la documentation.
 
 ### Créer une projection
 
 Une projection permet de choisir les propriétés visibles dans une
 représentation REST.
 
-Exemple : `CompteProjection`.
+ `AccountProjection`.
 
 ``` java
+import org.ngueoko.bankaccountservice.enums.AccountType;
 import org.springframework.data.rest.core.config.Projection;
 
-@Projection(name = "solde", types = Compte.class)
-public interface CompteProjection {
-    Long getId();
-    BigDecimal getSolde();
-    TypeCompte getType();
+import java.util.UUID;
+
+@Projection(types= BankAccount.class,name="p1")
+public interface AccountProjection {
+    UUID getId();
+    AccountType getType();
 }
 ```
 
-Ajouter les imports nécessaires :
-
-``` java
-import java.math.BigDecimal;
-```
-
-La projection peut être appelée avec le paramètre `projection` sur une
-ressource compatible, par exemple :
 
 ``` text
-http://localhost:8080/comptes/1?projection=solde
+http://localhost:8080/bankAccounts?projection=p1
 ```
 
-La disponibilité et la forme exacte des liens dépendent de la
-configuration Spring Data REST et de la ressource exposée.
+### Captures d'écran 
 
-### À comprendre
+![Image 8.2 --- Réponse HAL de Spring Data REST avec les liens des
+ressources.](atelier_spring_boot_images/8-2springDataRest.png)
 
--   Spring Data REST expose automatiquement les repositories
-    compatibles.
--   Les ressources sont généralement présentées selon le format HAL.
--   Les projections permettent de contrôler les propriétés présentées.
--   Les projections ne remplacent pas systématiquement les DTOs utilisés
-    dans une API métier.
+*Image 8.2 --- Réponse HAL de Spring Data REST avec les liens des
+ressources.*
 
-### Captures d'écran à insérer
+![Image 8.3 --- Réponse Spring Data REST utilisant une
+projection.](atelier_spring_boot_images/8-3springDataRest-Projection.png)
 
--   **Image 8.1 ---** dépendance Spring Data REST dans le `pom.xml`.
--   **Image 8.2 ---** interface `CompteRepository` annotée.
--   **Image 8.3 ---** réponse HAL de `/comptes`.
--   **Image 8.4 ---** réponse utilisant la projection `solde`.
+*Image 8.3 --- Réponse Spring Data REST utilisant une projection.*
 
-```{=html}
-<!-- IMAGE À INSÉRER : repository Spring Data REST -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : réponse HAL dans Postman ou navigateur -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : réponse REST avec projection -->
-```
+![Image 8.4 --- Consultation des ressources exposées par Spring Data
+REST.](atelier_spring_boot_images/8-4springDataRest.png)
+
+*Image 8.4 --- Consultation des ressources exposées par Spring Data
+REST.*
 
 ------------------------------------------------------------------------
 
 ## 9. Créer les DTOs et les mappers
 
-### Travail à faire
 
-Introduire des DTOs (*Data Transfer Objects*) pour séparer les objets
-échangés par l'API des entités persistées en base de données.
-
-Cette séparation permet notamment : - de ne pas exposer directement la
-structure interne de l'entité ; - de contrôler les champs reçus et
-retournés ; - de faire évoluer l'API indépendamment du modèle de
-persistance ; - de centraliser certaines règles de conversion.
-
-### Créer `CompteDTO`
+### Créer `BankAccountRequestDTO`  `BankAccountResponseDTO`
 
 ``` java
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.ngueoko.bankaccountservice.enums.AccountStatus;
+import org.ngueoko.bankaccountservice.enums.AccountType;
+
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public record CompteDTO(
-        Long id,
-        BigDecimal solde,
-        LocalDateTime dateCreation,
-        TypeCompte type
-) {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
+public class BankAccountResponseDTO {
+    private UUID id;
+    private Double balance;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private AccountType type;
+    private AccountStatus status;
+    private String currency;
 }
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.ngueoko.bankaccountservice.enums.AccountStatus;
+import org.ngueoko.bankaccountservice.enums.AccountType;
+
+@NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+public class BankAccountRequestDTO {
+    private Double balance;
+    private AccountType type;
+    private AccountStatus status;
+    private String currency;
+}
+
 ```
 
-Un `record` est adapté à un DTO simple en Java 17 ou supérieur. Une
-classe classique peut également être utilisée.
+### Créer `BankAccountMapper`
 
-### Créer un DTO de création
-
-Il est souvent préférable de distinguer les données de création des
-données de réponse :
 
 ``` java
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.ngueoko.bankaccountservice.dto.BankAccountRequestDTO;
+import org.ngueoko.bankaccountservice.dto.BankAccountResponseDTO;
+import org.ngueoko.bankaccountservice.entities.BankAccount;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
-public record CreateCompteDTO(
-        @NotNull
-        @PositiveOrZero
-        BigDecimal solde,
+@Mapper(componentModel = "spring")
+public interface BankAccountMapper  {
+     BankAccount sourceToDestination(BankAccountRequestDTO bankAccountRequestDTO);
+     BankAccountResponseDTO destinationToSource(BankAccount bankAccount);
+     List<BankAccountResponseDTO>  fromBankAccountList(List<BankAccount> bankAccounts);
 
-        @NotNull
-        TypeCompte type
-) {
-}
-```
-
-Pour activer les validations, ajouter si nécessaire la dépendance
-`spring-boot-starter-validation`.
-
-### Créer `CompteMapper`
-
-Un mapper convertit une entité en DTO et inversement.
-
-``` java
-import org.springframework.stereotype.Component;
-
-@Component
-public class CompteMapper {
-
-    public CompteDTO toDTO(Compte compte) {
-        return new CompteDTO(
-                compte.getId(),
-                compte.getSolde(),
-                compte.getDateCreation(),
-                compte.getType()
-        );
-    }
-
-    public Compte toEntity(CreateCompteDTO dto) {
-        return Compte.builder()
-                .solde(dto.solde())
-                .dateCreation(LocalDateTime.now())
-                .type(dto.type())
-                .build();
+     //Test de sur cette Methode
+     @AfterMapping
+    default void setUpdatedDate(@MappingTarget BankAccount bankAccount){
+         bankAccount.setUpdatedAt(LocalDateTime.now());
+     }
+    //Test de sur cette Methode
+    @AfterMapping
+    default void setcreatedDate(@MappingTarget BankAccount bankAccount){
+        bankAccount.setCreatedAt(LocalDateTime.now());
     }
 }
+
 ```
 
-Ajouter les imports :
+### Variante :  MapStruct
 
-``` java
-import java.time.LocalDateTime;
-```
-
-### Variante : utiliser MapStruct
-
-MapStruct peut générer automatiquement le code de mapping à la
+MapStruct va générer automatiquement le code de mapping à la
 compilation. Il nécessite une configuration supplémentaire du processeur
-d'annotations dans Maven, notamment si Lombok est également utilisé.
+d'annotations dans Maven, notamment comme Lombok est également utilisé.
 
 Pour ce travail, commencer par un mapper manuel permet de mieux
 comprendre le rôle de cette couche.
-
-### Captures d'écran à insérer
-
--   **Image 9.1 ---** classe ou record `CompteDTO`.
--   **Image 9.2 ---** DTO de création `CreateCompteDTO`.
--   **Image 9.3 ---** classe `CompteMapper`.
--   **Image 9.4 ---** exemple de réponse JSON utilisant le DTO.
-
-```{=html}
-<!-- IMAGE À INSÉRER : CompteDTO et CreateCompteDTO -->
 ```
-```{=html}
-<!-- IMAGE À INSÉRER : CompteMapper dans IntelliJ -->
+ <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+ </dependency>
+ 
+ <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </path>
+                                <path>
+                                    <groupId>org.mapstruct</groupId>
+                                    <artifactId>mapstruct-processor</artifactId>
+                                    <version>${org.mapstruct.version}</version>
+                                </path>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok-mapstruct-binding</artifactId>
+                                    <version>0.2.0</version>
+                                </path>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </path>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+ 
+      
 ```
-```{=html}
-<!-- IMAGE À INSÉRER : réponse Postman au format DTO -->
-```
-
 ------------------------------------------------------------------------
 
 ## 10. Créer la couche Service métier et finaliser le microservice
 
-### Travail à faire
-
-Faire évoluer l'architecture pour séparer clairement les responsabilités
-:
-
--   **Controller** : reçoit les requêtes HTTP et retourne les réponses.
--   **Service** : porte les règles métier et orchestre les opérations.
--   **Repository** : assure l'accès aux données.
--   **Mapper** : convertit les entités en DTOs et inversement.
--   **DTO** : définit les données échangées avec les clients.
 
 ### Architecture cible
 
 ``` text
-src/main/java/com/example/gestioncomptes/
-├── GestionComptesApplication.java
-├── controller/
-│   └── CompteRestController.java
+src/main/java/org/ngueoko/bankaccountservice/
+├── BankAccountServiceApplication.java
+├── web/
+│   └── AccountRestController.java
 ├── service/
-│   ├── CompteService.java
-│   └── CompteServiceImpl.java
-├── repository/
-│   └── CompteRepository.java
-├── entity/
-│   ├── Compte.java
+│   ├── IAccountService.java
+│   └── AccountServiceImpl.java
+├── repositories/
+│   └── BankAccountRepository.java
+├── entities/
+│   ├── BankAccount.java
 │   └── TypeCompte.java
 ├── dto/
-│   ├── CompteDTO.java
-│   └── CreateCompteDTO.java
-└── mapper/
-    └── CompteMapper.java
+│   └── CompteDTO.java
+│   
+└── mappers/
+    └── BankAccountMapper.java
 ```
 
-### Définir l'interface `CompteService`
+### l'interface `IAccountService`
 
 ``` java
+import org.ngueoko.bankaccountservice.dto.BankAccountRequestDTO;
+import org.ngueoko.bankaccountservice.dto.BankAccountResponseDTO;
+
 import java.util.List;
+import java.util.UUID;
 
-public interface CompteService {
-
-    List<CompteDTO> getAllComptes();
-
-    CompteDTO getCompte(Long id);
-
-    CompteDTO createCompte(CreateCompteDTO dto);
-
-    CompteDTO updateCompte(Long id, CreateCompteDTO dto);
-
-    void deleteCompte(Long id);
+public interface IAccountService {
+    List<BankAccountResponseDTO> bankAccounts();
+    BankAccountResponseDTO bankAccount(UUID id);
+    BankAccountResponseDTO addAccount(BankAccountRequestDTO account);
+    BankAccountResponseDTO update(UUID id, BankAccountRequestDTO bankAccountRequestDTO);
+    void delete(UUID id);
 }
+
 ```
 
-### Implémenter `CompteServiceImpl`
+### Implémentation `AccountServiceImpl`
 
 ``` java
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
+import org.ngueoko.bankaccountservice.dto.BankAccountRequestDTO;
+import org.ngueoko.bankaccountservice.dto.BankAccountResponseDTO;
+import org.ngueoko.bankaccountservice.entities.BankAccount;
+import org.ngueoko.bankaccountservice.mappers.BankAccountMapper;
+import org.ngueoko.bankaccountservice.repositories.BankAccountRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
-@Service
+
 @Transactional
-public class CompteServiceImpl implements CompteService {
+@AllArgsConstructor
+@Service
+public class AccountServiceImpl implements IAccountService{
+    private final BankAccountRepository bankAccountRepository;
+    private final BankAccountMapper bankAccountsMapper;
 
-    private final CompteRepository compteRepository;
-    private final CompteMapper compteMapper;
 
-    public CompteServiceImpl(
-            CompteRepository compteRepository,
-            CompteMapper compteMapper) {
-        this.compteRepository = compteRepository;
-        this.compteMapper = compteMapper;
+    @Override
+    public List<BankAccountResponseDTO> bankAccounts() {
+        return bankAccountsMapper.fromBankAccountList(bankAccountRepository.findAll());
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<CompteDTO> getAllComptes() {
-        return compteRepository.findAll()
-                .stream()
-                .map(compteMapper::toDTO)
-                .toList();
+    public BankAccountResponseDTO bankAccount(UUID id) {
+       BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(
+                ()-> new RuntimeException("Bank account with id " + id + " not found")
+        );
+        return bankAccountsMapper.destinationToSource(bankAccount);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public CompteDTO getCompte(Long id) {
-        Compte compte = trouverCompte(id);
-        return compteMapper.toDTO(compte);
+    public BankAccountResponseDTO addAccount(BankAccountRequestDTO accountRequestDTO){
+        return  bankAccountsMapper.destinationToSource(bankAccountRepository.save(
+                bankAccountsMapper.sourceToDestination(accountRequestDTO)));
     }
 
     @Override
-    public CompteDTO createCompte(CreateCompteDTO dto) {
-        Compte compte = compteMapper.toEntity(dto);
-        Compte saved = compteRepository.save(compte);
-        return compteMapper.toDTO(saved);
+    public BankAccountResponseDTO update(UUID id, BankAccountRequestDTO bankAccountRequestDTO) {
+        BankAccount account = bankAccountRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Bank account with id " + id + " not found"));
+        BankAccount accountToSave = bankAccountsMapper.sourceToDestination(bankAccountRequestDTO);
+        accountToSave.setId(account.getId());
+        accountToSave.setCreatedAt(account.getCreatedAt());
+        return bankAccountsMapper.destinationToSource(bankAccountRepository.save(accountToSave));
     }
 
     @Override
-    public CompteDTO updateCompte(Long id, CreateCompteDTO dto) {
-        Compte compte = trouverCompte(id);
-
-        compte.setSolde(dto.solde());
-        compte.setType(dto.type());
-
-        Compte updated = compteRepository.save(compte);
-        return compteMapper.toDTO(updated);
-    }
-
-    @Override
-    public void deleteCompte(Long id) {
-        Compte compte = trouverCompte(id);
-        compteRepository.delete(compte);
-    }
-
-    private Compte trouverCompte(Long id) {
-        return compteRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Compte introuvable : " + id
-                ));
+    public void delete(UUID id) {
+        bankAccountRepository.deleteById(id);
     }
 }
+
 ```
 
-### Adapter le contrôleur REST
+### le contrôleur REST
 
-Le contrôleur ne doit plus appeler directement le repository. Il délègue
-désormais les opérations à `CompteService`.
 
 ``` java
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
+import org.ngueoko.bankaccountservice.dto.BankAccountRequestDTO;
+import org.ngueoko.bankaccountservice.dto.BankAccountResponseDTO;
+import org.ngueoko.bankaccountservice.service.IAccountService;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
+import java.util.UUID;
 
+@AllArgsConstructor
 @RestController
-@RequestMapping("/api/comptes")
-public class CompteRestController {
+public class AccountRestController {
 
-    private final CompteService compteService;
+    private final IAccountService iAccountService;
 
-    public CompteRestController(CompteService compteService) {
-        this.compteService = compteService;
+    @GetMapping("/bankAccounts")
+    public List<BankAccountResponseDTO> bankAccounts() {
+        return iAccountService.bankAccounts();
     }
 
-    @GetMapping
-    public List<CompteDTO> getComptes() {
-        return compteService.getAllComptes();
+    @GetMapping("/bankAccounts/{id}")
+    public  BankAccountResponseDTO bankAccount(@PathVariable UUID id) {
+        return iAccountService.bankAccount(id);
     }
 
-    @GetMapping("/{id}")
-    public CompteDTO getCompte(@PathVariable Long id) {
-        return compteService.getCompte(id);
+    @PostMapping("/bankAccounts")
+    public BankAccountResponseDTO save(@RequestBody BankAccountRequestDTO bankAccountRequestDTO) {
+        return iAccountService.addAccount(bankAccountRequestDTO);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public CompteDTO createCompte(@Valid @RequestBody CreateCompteDTO dto) {
-        return compteService.createCompte(dto);
+    @PutMapping("/bankAccounts/{id}")
+    public BankAccountResponseDTO update(@PathVariable UUID id, @RequestBody  BankAccountRequestDTO bankAccount) {
+        return iAccountService.update(id,bankAccount);
     }
 
-    @PutMapping("/{id}")
-    public CompteDTO updateCompte(
-            @PathVariable Long id,
-            @Valid @RequestBody CreateCompteDTO dto) {
-        return compteService.updateCompte(id, dto);
+    @DeleteMapping("/bankAccounts/{id}")
+    public  void delete(@PathVariable UUID id) {
+        iAccountService.delete(id);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCompte(@PathVariable Long id) {
-        compteService.deleteCompte(id);
-    }
 }
+
 ```
-
-### Finaliser et tester l'architecture
-
-1.  Vérifier que le contrôleur ne dépend plus de `CompteRepository`.
-2.  Vérifier que le service utilise le repository et le mapper.
-3.  Vérifier que les réponses REST utilisent les DTOs.
-4.  Tester les cas nominaux et les erreurs.
-5.  Vérifier que Swagger documente les endpoints.
-6.  Exécuter l'ensemble des tests automatisés.
-
-### Captures d'écran à insérer
-
--   **Image 10.1 ---** arborescence finale du projet.
--   **Image 10.2 ---** interface `CompteService`.
--   **Image 10.3 ---** implémentation `CompteServiceImpl`.
--   **Image 10.4 ---** contrôleur REST utilisant le service.
--   **Image 10.5 ---** tests de l'application et résultats dans
-    IntelliJ.
--   **Image 10.6 ---** API finale testée avec Postman et documentée avec
-    Swagger.
-
-```{=html}
-<!-- IMAGE À INSÉRER : architecture finale dans IntelliJ -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : service métier et contrôleur -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : tests finaux -->
-```
-```{=html}
-<!-- IMAGE À INSÉRER : Swagger et Postman après refactorisation -->
-```
-
 ------------------------------------------------------------------------
 
-## Bilan du travail
-
-À la fin de cet atelier, l'application doit permettre de :
-
--   créer et configurer un projet Spring Boot avec Maven ;
--   modéliser une entité JPA et la persister dans H2 ;
--   exploiter Spring Data JPA avec un repository ;
--   tester la couche DAO avec JUnit ;
--   exposer des opérations REST ;
--   tester les API avec Postman ;
--   générer et consulter la documentation OpenAPI avec Swagger UI ;
--   exposer un repository avec Spring Data REST ;
--   présenter des données avec des projections ;
--   séparer les entités des DTOs grâce aux mappers ;
--   organiser le code autour d'une couche métier Service.
-
-## Checklist de livraison
-
--   [ ] Projet Spring Boot créé et démarré.
--   [ ] Dépendances Maven vérifiées.
--   [ ] Entité `Compte` créée.
--   [ ] `CompteRepository` créé.
--   [ ] Tests DAO exécutés avec succès.
--   [ ] Contrôleur REST opérationnel.
--   [ ] Requêtes Postman testées.
--   [ ] Swagger UI accessible.
--   [ ] Dépendance Springdoc `2.8.13` utilisée.
--   [ ] API Spring Data REST testée.
--   [ ] Projection testée.
--   [ ] DTOs et mapper créés.
--   [ ] Couche Service métier créée.
--   [ ] Contrôleur refactorisé pour utiliser le service.
--   [ ] Captures d'écran ajoutées à chaque partie.
-
-## Ressources utiles
-
--   [Spring Initializr](https://start.spring.io/)
--   [Documentation Spring
-    Boot](https://docs.spring.io/spring-boot/index.html)
--   [Documentation Spring Data
-    JPA](https://docs.spring.io/spring-data/jpa/reference/)
--   [Documentation Spring Data
-    REST](https://docs.spring.io/spring-data/rest/reference/)
--   [Documentation Springdoc OpenAPI](https://springdoc.org/)
--   [Documentation Lombok](https://projectlombok.org/)
--   [Documentation Postman](https://learning.postman.com/)
--   [Documentation H2
-    Database](https://www.h2database.com/html/main.html)
-
-------------------------------------------------------------------------
-
-**Consigne pour les captures :** remplacer chaque commentaire
-`IMAGE À INSÉRER` par une capture d'écran réelle de votre environnement.
-Ajouter une légende sous chaque image (numéro, titre et courte
-explication). Les captures doivent montrer les étapes effectivement
-réalisées et les résultats obtenus.
